@@ -1,17 +1,17 @@
 ---
 name: gl-transitions
-description: Adds image and video transitions (fades, wipes, zooms, glitches, page curls...) from gl-transitions, an open collection of 125 GLSL shaders, with SkSL, GLSL ES 3.00, WGSL and Metal versions of those that translate (see compatibility.json). Use when the user wants a transition between two images, video clips, slides or scenes in WebGL, WebGPU, Skia (CanvasKit, React Native Skia), Remotion, editly, FFmpeg, Rust, Swift (Metal, AVFoundation) or Android, or names a gl-transition.
+description: Adds image and video transitions (fades, wipes, zooms, glitches, page curls...) from the 193 GLSL shaders in gl-transitions, with SkSL, GLSL ES 3.00, WGSL and Metal versions of those that translate. Use when the user wants transitions between images, video clips, slides or scenes in WebGL, WebGPU, Skia, Remotion, editly, FFmpeg, Rust, Swift or Android, or names a gl-transition.
 ---
 
 # gl-transitions
 
-Each transition is a GLSL function `vec4 transition(vec2 uv)` that blends an outgoing image into an incoming one as `progress` goes from 0 to 1. The npm package `gl-transitions` ships every transition as GLSL, plus SkSL, GLSL ES 3.00, WGSL and Metal versions of each one that translates (`compatibility.json`), and a catalog (`gl-transitions.json`) with descriptions, tags and typed parameters. Ready-made packages wrap it for React Native Skia, Remotion, Rust, Swift and Android.
+Each transition is a GLSL function `vec4 transition(vec2 uv)` that blends an outgoing image into an incoming one as `progress` goes from 0 to 1. The npm package `gl-transitions` ships 193 transitions as GLSL, plus SkSL, GLSL ES 3.00, WGSL and Metal versions of each one that translates (`compatibility.json`), and a catalog (`gl-transitions.json`) with descriptions, tags and typed parameters. Ready-made packages wrap it for React Native Skia, Remotion, Rust, Swift and Android.
 
 ## 1. Pick a transition
 
-Read `references/catalog.md` (by tag, then one line per transition). If it is missing, fetch `https://cdn.jsdelivr.net/npm/gl-transitions@2/skills/gl-transitions/references/catalog.md`.
+Start with `references/catalog.md` for a short, curated index. For full descriptions, all tags, parameter types/defaults, authors, source links, and compatibility, consult the official `gl-transitions@2.5.0` reference at https://cdn.jsdelivr.net/npm/gl-transitions@2.5.0/llms-full.txt or structured metadata at https://cdn.jsdelivr.net/npm/gl-transitions@2.5.0/gl-transitions.json.
 
-- Match the user's words against descriptions and tags (`wipe`, `zoom`, `glitch`, `3d`...). Offer 2 or 3 candidates when the request is vague, with their preview link `https://gl-transitions.com/editor/<name>`.
+- Match the user's words against descriptions and tags (`wipe`, `zoom`, `glitch`, `3d`...). Offer 2 or 3 candidates when the request is vague, with preview links `https://gl-transitions.com/editor/<name>`.
 - Prefer transitions without extra textures: `DisplacementMap` and `LumaWipe` need an additional image from the host.
 - Names are PascalCase and case-sensitive (`CrossWarp`, `CrossZoom`, `Cube`). Version 2.0 renamed them: code written for 1.x (`crosswarp`, `cube`) needs the new names, listed in the package's CHANGELOG.md.
 
@@ -29,7 +29,7 @@ Pin the exact version (`gl-transitions@2.x.y`) in production URLs.
 
 ## 3. Wire it into the host
 
-The host defines `progress`, `ratio`, `getFromColor(uv)`, `getToColor(uv)` and one uniform per parameter. **Always set every parameter**, to its `default` from the catalog unless the user chose a value: an unset uniform is 0 and breaks most transitions. Prefer a ready-made package when one fits the host: they set the parameters left out to their defaults.
+The host defines `progress`, `ratio`, `getFromColor(uv)`, `getToColor(uv)` and one uniform per parameter. **Always set every parameter**, to its `default` from the catalog unless the user chose a value: an unset uniform is 0 and breaks most transitions. Prefer a ready-made package when one fits the host: they set parameters left out to their defaults.
 
 | Host | Use | Read |
 |---|---|---|
@@ -47,7 +47,7 @@ The host defines `progress`, `ratio`, `getFromColor(uv)`, `getToColor(uv)` and o
 
 ## 4. Check the result
 
-- At `progress = 0` the output must be the outgoing image, at `progress = 1` the incoming one (the specification; a few transitions are off by a pixel or a slight blur at the ends, e.g. `MosaicBlend`, `TangentMotionBlur`). Render both ends and one middle frame.
+- At `progress = 0` the output must be the outgoing image, at `progress = 1` the incoming image (the specification; a few transitions are off by a pixel or a slight blur at the ends, e.g. `MosaicBlend`, `TangentMotionBlur`). Render both ends and one middle frame.
 - An upside-down result means the image rows are flipped: `uv` has its origin at the bottom left (see each reference).
 - A black or frozen result usually means a parameter was left unset or an extra texture is missing.
-- Credit the author and license from the catalog when the user ships the result (most are MIT).
+- Credit the author and license from the official catalog when the user ships the result (most are MIT).
