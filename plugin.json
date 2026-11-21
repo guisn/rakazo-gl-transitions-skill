@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.1.0/plugin.schema.json",
+  "name": "gl-transitions-skill",
+  "version": "1.0.0",
+  "description": "Official gl-transitions guidance for shader-based transitions in motion design, video, and interactive scenes.",
+  "repository": "https://github.com/guisn/rakazo-gl-transitions-skill",
+  "license": "MIT",
+  "keywords": ["motion-design", "glsl", "video-transitions", "agent-skill"]
+}
